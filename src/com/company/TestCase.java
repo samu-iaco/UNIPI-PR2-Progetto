@@ -67,7 +67,8 @@ public class TestCase {
 
             System.out.println("video aggiunto!");
         }catch(WrongLoginException e){
-            System.out.println("password errata bro!");
+            //System.out.println("password errata bro!");
+            e.printStackTrace();
         }catch(NotExistsException e){
             System.out.println("categoria non presente bro!");
         }catch(AlreadyExistsException e){

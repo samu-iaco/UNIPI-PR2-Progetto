@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -112,7 +113,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     @Override
     public boolean put(String passw, E dato, String categoria) throws NullPointerException,WrongLoginException,NotExistsException,AlreadyExistsException {
         if(passw == null || categoria == null) throw new NullPointerException();
-        if(!login(passw)) throw new WrongLoginException();
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
 
         int pos = findCategory(categoria);
         if(pos == -1) throw new NotExistsException();
@@ -148,7 +149,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public Iterator<E> getFriendIterator(String friend) {
-        return null;
+        return Collections.unmodifiableList(b).iterator();
     }
 
 }

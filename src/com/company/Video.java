@@ -46,4 +46,12 @@ public class Video extends Data {
                 " durata=" + lenght +
                         " dimensione= "+size+'}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Video v = (Video) obj;
+        return
+                v.lenght == this.lenght && v.size == this.size && this.getTitle().equals(v.Title);
+
+    }
 }
