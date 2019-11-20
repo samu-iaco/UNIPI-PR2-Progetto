@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
@@ -67,7 +64,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     // Aggiunge un amico ad una categoria di dati
     // se vengono rispettati i controlli di identità
     @Override
-    public void addFriend(String category, String passw, String friend) throws NullPointerException, WrongLoginException, AlreadyExistsException {
+    public void addFriend(String category, String passw, String friend) throws NullPointerException, AlreadyExistsException, WrongLoginException {
         if(category == null || passw == null || friend == null) throw new NullPointerException();
         if(!login(passw)) throw new WrongLoginException();
 
@@ -144,12 +141,19 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public Iterator<E> getIterator(String passw) {
+        Vector<E> v = new Vector<E>();
         return null;
     }
 
     @Override
     public Iterator<E> getFriendIterator(String friend) {
-        return Collections.unmodifiableList(b).iterator();
+        List<E> list = new ArrayList<>();
+        for(Category<E> it : categorie){
+            if(it.getAmiciCat().contains(friend))
+                list.addAll(it.getDatiCat());
+        }
+
+        return Collections.unmodifiableList(list).iterator();
     }
 
 }
