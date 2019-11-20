@@ -7,6 +7,7 @@ public class ProvaTest {
 
 
     private MyDataBoard<Video> gallery = new MyDataBoard<Video>("a");
+    private Video vid = new Video(12,32,"cane");
     private Video titles[] = {
             new Video(120,8,"Topolino e pippo"),
             new Video(120,8,"Pippo tutto il giorno"),
@@ -19,6 +20,7 @@ public class ProvaTest {
             gallery.createCategory("animali","a");
             gallery.addFriend("animali","a","fede");
             gallery.addFriend("animali","a","loris");
+            //gallery.put("a",vid,"animali");
             for(int i = 0; i < titles.length; i++)
                 gallery.put("a",titles[i],"animali");
         } catch (WrongLoginException | AlreadyExistsException | NotExistsException e) {
@@ -69,7 +71,24 @@ public class ProvaTest {
         }
 
         it.remove();
+    }
 
+    @Test
+    public void test_remove() throws NotExistsException, WrongLoginException {
+        gallery.remove("a",titles[0]);
+        Iterator<Video> it = gallery.getFriendIterator("fede");
+        int count = 0;
 
+        while(it.hasNext()){
+            //Assert.assertEquals(
+              //      titles[count++].getTitle(),
+              //      it.next().getTitle()
+            //);
+            count++;
+            it.next().getTitle();
+        }
+
+        Assert.assertEquals(2,count);
+        //it.remove();
     }
 }

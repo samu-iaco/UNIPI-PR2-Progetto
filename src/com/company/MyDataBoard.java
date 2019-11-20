@@ -125,16 +125,20 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E remove(String passw, E dato) {
-        //TODO: controlli identità e dato
+    public E remove(String passw, E dato) throws WrongLoginException, NotExistsException {
+        if(!login(passw)) throw new WrongLoginException("password sbagliata!");
 
         for(Category<E> d: categorie){
-            for(E data : d.getDatiCat()){
-                if(data.equals(dato)){
-                    d.getDatiCat().remove(dato);
+            for(E da : d.getDatiCat()){
+                if(da.equals(dato)){
+                    int pos = d.getDatiCat().indexOf(da);
+                    //System.out.println(pos);
+                    return d.getDatiCat().remove(pos);
                 }
             }
         }
+
+        throw new NotExistsException("dato non presente!");
     }
 
     @Override
