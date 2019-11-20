@@ -126,27 +126,72 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public E remove(String passw, E dato) {
-        return null;
+        //TODO: controlli identità e dato
+
+        for(Category<E> d: categorie){
+            for(E data : d.getDatiCat()){
+                if(data.equals(dato)){
+                    d.getDatiCat().remove(dato);
+                }
+            }
+        }
     }
 
     @Override
-    public List<E> getDataCategory(String passw, String category) {
-        return null;
+    public List<E> getDataCategory(String passw, String category) throws NotExistsException, WrongLoginException {
+        if(!login(passw)) throw new WrongLoginException("password errata!");
+        if(!checkExists(category)) throw new NotExistsException("categoria non trovata!");
+
+        List<E> list = new ArrayList<>();
+        for(Category<E> c : categorie){
+            if(c.getNomeCat().equals(category)){
+                list.addAll(c.getDatiCat());
+                return list;
+            }
+        }
+        throw new NotExistsException("Dato non esistente!");
     }
 
     @Override
-    public void insertLike(String friend, E dato) {
+    public void insertLike(String friend, E dato) throws AlreadyLikedException, PermessionDeniedException {
+        //TODO: controllare parametri e controllare che friend non abbia gia messo like oppure che friend possa vedere la categoria
+
+        for(Category<E> d: categorie){
+            for(E data : d.getDatiCat()){
+                if(data.equals(dato)){
+                    if(d.getAmiciCat().contains(friend)){
+                        if(!data.amici.contains(friend)){
+                            data.like++;
+                            data.amici.add(friend);
+                        } else throw new AlreadyLikedException("Like già aggiunto !");
+                    } else throw new PermessionDeniedException("Accesso negato all'utente");
+                }
+            }
+        }
 
     }
 
     @Override
     public Iterator<E> getIterator(String passw) {
-        Vector<E> v = new Vector<E>();
-        return null;
+        //TODO: controllare dati di accesso
+
+        List<E> list = new ArrayList<>();
+        for(Category<E> it : categorie){
+                list.addAll(it.getDatiCat());
+        }
+        list.sort(new Comparator<E>() {
+            @Override
+            public int compare(E o1, E o2) {
+                return o2.like - o1.like;
+            }
+        });
+        return Collections.unmodifiableList(list).iterator();
     }
 
     @Override
     public Iterator<E> getFriendIterator(String friend) {
+        //TODO: controllare se friend esiste
+
         List<E> list = new ArrayList<>();
         for(Category<E> it : categorie){
             if(it.getAmiciCat().contains(friend))

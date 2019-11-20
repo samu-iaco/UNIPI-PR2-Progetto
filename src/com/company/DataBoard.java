@@ -33,11 +33,11 @@ public interface DataBoard<E extends Data> {
 
     // Crea la lista dei dati in bacheca di una determinata categoria
     // se vengono rispettati i controlli di identità
-    public List<E> getDataCategory(String passw, String category);
+    public List<E> getDataCategory(String passw, String category) throws NotExistsException, WrongLoginException;
 
     // Aggiunge un like a un dato
     // se vengono rispettati i controlli di identità
-    void insertLike(String friend, E dato);
+    void insertLike(String friend, E dato) throws AlreadyLikedException, PermessionDeniedException;
 
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca ordinati rispetto al numero di like
