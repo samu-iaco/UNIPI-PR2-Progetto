@@ -42,6 +42,9 @@ public class TestCase {
                 case 5:
                     aggiungiDato();
                     break;
+                case 6:
+                    rimuoviDato();
+                    break;
             }
         }
 
@@ -54,12 +57,30 @@ public class TestCase {
         System.out.println("3 - Aggiungi Amico");
         System.out.println("4 - Rimuovi Amico");
         System.out.println("5 - Aggiungi dato");
+        System.out.println("6 - Rimuovi dato");
+    }
+
+    private static void rimuoviDato(){
+        String pass_Cat = chiediStringa("password");
+        //String chiediDato = chiediStringa("Dato");
+        Video dato = new Video(80,20,"porno");
+
+        try{
+            lista.remove(pass_Cat,dato);
+
+            System.out.println("video rimosso!");
+        }catch(WrongLoginException e){
+            //System.out.println("password errata bro!");
+            e.printStackTrace();
+        }catch(NotExistsException e){
+            System.out.println("ciao");
+        }
     }
 
     private static void aggiungiDato(){
         String categoria = chiediStringa("categoria");
         String pass_Cat = chiediStringa("password");
-        String chiediDato = chiediStringa("Dato");
+        //String chiediDato = chiediStringa("Dato");
         Video dato = new Video(80,20,"porno");
 
         try{

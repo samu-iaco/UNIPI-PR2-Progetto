@@ -29,7 +29,7 @@ public interface DataBoard<E extends Data> {
 
     // Rimuove il dato dalla bacheca
     // se vengono rispettati i controlli di identità
-    public E remove(String passw, E dato);
+    public E remove(String passw, E dato) throws WrongLoginException, NotExistsException;
 
     // Crea la lista dei dati in bacheca di una determinata categoria
     // se vengono rispettati i controlli di identità
