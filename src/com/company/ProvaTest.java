@@ -91,4 +91,10 @@ public class ProvaTest {
         Assert.assertEquals(2,count);
         //it.remove();
     }
+
+    @Test
+    public void test_get() throws NotExistsException, WrongLoginException {
+        Video dato = gallery.get("a",titles[0]);
+        Assert.assertTrue(dato.equals(titles[0]));
+    }
 }

@@ -120,8 +120,18 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E get(String passw, E dato) {
-        return null;
+    public E get(String passw, E dato) throws WrongLoginException,NotExistsException {
+        if(!login(passw)) throw new WrongLoginException("password sbagliata");
+
+        for(Category<E> d: categorie){
+            for(E data: d.getDatiCat()){
+                if(data.equals(dato)){
+                    int pos = d.getDatiCat().indexOf(dato);
+                    return d.getDatiCat().get(pos);
+                }
+            }
+        }
+        throw new NotExistsException("Dato non presente");
     }
 
     @Override

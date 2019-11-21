@@ -25,7 +25,7 @@ public interface DataBoard<E extends Data> {
 
     //Restituisce una copia del dato in bacheca
     // se vengono rispettati i controlli di identità
-    public E get(String passw, E dato);
+    public E get(String passw, E dato) throws WrongLoginException,NotExistsException ;
 
     // Rimuove il dato dalla bacheca
     // se vengono rispettati i controlli di identità
