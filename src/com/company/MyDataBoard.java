@@ -5,19 +5,17 @@ import java.util.*;
 public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     private Vector<Category<E>> categorie;
-    private Vector<DataFriend> dati_amici;
     private String password;
 
     public MyDataBoard(String password) {
         this.password = password;
         categorie = new Vector<Category<E>>();
-        dati_amici = new Vector<DataFriend>();
     }
 
     @Override
     public void createCategory(String category, String passw) throws NullPointerException, AlreadyExistsException,WrongLoginException {
-        if(category == null) throw new NullPointerException();
-        if(!login(passw)) throw new WrongLoginException();
+        if(category == null) throw new NullPointerException("Categoria nulla!");
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
         if(!checkExists(category)) categorie.add(new Category(category));
         else throw new AlreadyExistsException();
     }
@@ -53,9 +51,9 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public void removeCategory(String category, String passw) throws NullPointerException, WrongLoginException,NotExistsException{
-        if(category == null || passw == null) throw new NullPointerException();
-        if(!login(passw)) throw new WrongLoginException();
-        if(!checkExists(category)) throw new NotExistsException();
+        if(category == null || passw == null) throw new NullPointerException("password o categoria nulla!");
+        if(!login(passw)) throw new WrongLoginException("password errata!");
+        if(!checkExists(category)) throw new NotExistsException("Categoria non presente");
 
         int pos = findCategory(category);
         if(pos != -1) categorie.remove(pos);
@@ -65,20 +63,20 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     // se vengono rispettati i controlli di identità
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException, AlreadyExistsException, WrongLoginException {
-        if(category == null || passw == null || friend == null) throw new NullPointerException();
-        if(!login(passw)) throw new WrongLoginException();
+        if(category == null || passw == null || friend == null) throw new NullPointerException("categoria, password o amico nullo");
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
 
         int pos_cat = findCategory(category);
         Category<E> c = categorie.get(pos_cat);
-        if(c.getAmiciCat().contains(friend)) throw new AlreadyExistsException();
+        if(c.getAmiciCat().contains(friend)) throw new AlreadyExistsException("Amico gia presente!");
         else c.getAmiciCat().add(friend);
 
     }
 
     @Override
     public void removeFriend(String category, String passw, String friend) throws NullPointerException, WrongLoginException,NotExistsException {
-        if(category == null || passw == null) throw new NullPointerException();
-        if(!login(passw)) throw new WrongLoginException();
+        if(category == null || passw == null) throw new NullPointerException("Categoria o password nulla");
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
 
         int pos = findCategory(category);
         Category<E> c = categorie.get(pos);
@@ -109,13 +107,13 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean put(String passw, E dato, String categoria) throws NullPointerException,WrongLoginException,NotExistsException,AlreadyExistsException {
-        if(passw == null || categoria == null) throw new NullPointerException();
+        if(passw == null || categoria == null) throw new NullPointerException("Password o categoria nulla!");
         if(!login(passw)) throw new WrongLoginException("Password errata!");
 
         int pos = findCategory(categoria);
-        if(pos == -1) throw new NotExistsException();
+        if(pos == -1) throw new NotExistsException("Categoria non presente!");
         Category<E> c = categorie.get(pos);
-        if(checkData(dato)) throw new AlreadyExistsException();
+        if(checkData(dato)) throw new AlreadyExistsException("Dato già inserito!");
         else return (c.getDatiCat().add(dato));
     }
 

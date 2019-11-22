@@ -23,6 +23,7 @@ public class Category<E> {
         return amiciCat;
     }
 
+
     public void setDatiCat(Vector<E> datiCat) {
         this.datiCat = datiCat;
     }
