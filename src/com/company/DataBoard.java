@@ -25,7 +25,11 @@ public interface DataBoard<E extends Data> {
 
     //Restituisce una copia del dato in bacheca
     // se vengono rispettati i controlli di identità
+<<<<<<< HEAD
     public E get(String passw, E dato) throws WrongLoginException,NotExistsException ;
+=======
+    public E get(String passw, E dato) throws WrongLoginException, NotExistsException;
+>>>>>>> develop
 
     // Rimuove il dato dalla bacheca
     // se vengono rispettati i controlli di identità
@@ -42,9 +46,9 @@ public interface DataBoard<E extends Data> {
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca ordinati rispetto al numero di like
     // se vengono rispettati i controlli di identità
-    public Iterator<E> getIterator(String passw);
+    public Iterator<E> getIterator(String passw) throws WrongLoginException;
 
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca condivisi
-    public Iterator<E> getFriendIterator(String friend);
+    public Iterator<E> getFriendIterator(String friend) throws NotExistsException;
 }

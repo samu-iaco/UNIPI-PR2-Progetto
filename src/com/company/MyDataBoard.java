@@ -14,10 +14,17 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public void createCategory(String category, String passw) throws NullPointerException, AlreadyExistsException,WrongLoginException {
+<<<<<<< HEAD
         if(category == null) throw new NullPointerException("Categoria nulla!");
         if(!login(passw)) throw new WrongLoginException("Password errata!");
         if(!checkExists(category)) categorie.add(new Category(category));
         else throw new AlreadyExistsException();
+=======
+        if(category == null) throw new NullPointerException("Categoria nulla");
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
+        if(!checkExists(category)) categorie.add(new Category<E>(category));
+        else throw new AlreadyExistsException("Categoria già presente");
+>>>>>>> develop
     }
 
     private boolean login(String passw){
@@ -51,38 +58,57 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public void removeCategory(String category, String passw) throws NullPointerException, WrongLoginException,NotExistsException{
+<<<<<<< HEAD
         if(category == null || passw == null) throw new NullPointerException("password o categoria nulla!");
         if(!login(passw)) throw new WrongLoginException("password errata!");
         if(!checkExists(category)) throw new NotExistsException("Categoria non presente");
+=======
+        if(category == null || passw == null) throw new NullPointerException("categoria o password nulla");
+        if(!login(passw)) throw new WrongLoginException("password errata!");
+        if(!checkExists(category)) throw new NotExistsException("categoria non presente!");
+>>>>>>> develop
 
         int pos = findCategory(category);
         if(pos != -1) categorie.remove(pos);
     }
 
-    // Aggiunge un amico ad una categoria di dati
-    // se vengono rispettati i controlli di identità
+
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException, AlreadyExistsException, WrongLoginException {
+<<<<<<< HEAD
         if(category == null || passw == null || friend == null) throw new NullPointerException("categoria, password o amico nullo");
+=======
+        if(category == null || passw == null || friend == null) throw new NullPointerException("campo categoria,password o amico nullo");
+>>>>>>> develop
         if(!login(passw)) throw new WrongLoginException("Password errata!");
 
         int pos_cat = findCategory(category);
         Category<E> c = categorie.get(pos_cat);
+<<<<<<< HEAD
         if(c.getAmiciCat().contains(friend)) throw new AlreadyExistsException("Amico gia presente!");
         else c.getAmiciCat().add(friend);
+=======
+        if(c.getAmiciCat().contains(friend)) throw new AlreadyExistsException("Amico gia presente");
+        c.getAmiciCat().add(friend);
+>>>>>>> develop
 
     }
 
     @Override
     public void removeFriend(String category, String passw, String friend) throws NullPointerException, WrongLoginException,NotExistsException {
+<<<<<<< HEAD
         if(category == null || passw == null) throw new NullPointerException("Categoria o password nulla");
         if(!login(passw)) throw new WrongLoginException("Password errata!");
+=======
+        if(category == null || passw == null) throw new NullPointerException("categoria o password nulla!");
+        if(!login(passw)) throw new WrongLoginException("password errata!");
+>>>>>>> develop
 
         int pos = findCategory(category);
         Category<E> c = categorie.get(pos);
 
         if(c.getAmiciCat().contains(friend)) c.getAmiciCat().remove(friend);
-        else throw new NotExistsException();
+        else throw new NotExistsException("amico non presente");
 
         /*
         int pos_friend = findFriend(c,friend);
@@ -107,6 +133,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean put(String passw, E dato, String categoria) throws NullPointerException,WrongLoginException,NotExistsException,AlreadyExistsException {
+<<<<<<< HEAD
         if(passw == null || categoria == null) throw new NullPointerException("Password o categoria nulla!");
         if(!login(passw)) throw new WrongLoginException("Password errata!");
 
@@ -114,11 +141,24 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
         if(pos == -1) throw new NotExistsException("Categoria non presente!");
         Category<E> c = categorie.get(pos);
         if(checkData(dato)) throw new AlreadyExistsException("Dato già inserito!");
+=======
+        if(passw == null || categoria == null) throw new NullPointerException("categoria o password nulla!");
+        if(!login(passw)) throw new WrongLoginException("Password errata!");
+
+        int pos = findCategory(categoria);
+        if(pos == -1) throw new NotExistsException("categoria non esistente");
+        Category<E> c = categorie.get(pos);
+        if(checkData(dato)) throw new AlreadyExistsException("Dato gia presente!");
+>>>>>>> develop
         else return (c.getDatiCat().add(dato));
     }
 
     @Override
+<<<<<<< HEAD
     public E get(String passw, E dato) throws WrongLoginException,NotExistsException {
+=======
+    public E get(String passw, E dato) throws WrongLoginException, NotExistsException {
+>>>>>>> develop
         if(!login(passw)) throw new WrongLoginException("password sbagliata");
 
         for(Category<E> d: categorie){
@@ -161,12 +201,12 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
                 return list;
             }
         }
-        throw new NotExistsException("Dato non esistente!");
+        throw new NotExistsException("Dati non esistente!");
     }
+
 
     @Override
     public void insertLike(String friend, E dato) throws AlreadyLikedException, PermessionDeniedException {
-        //TODO: controllare parametri e controllare che friend non abbia gia messo like oppure che friend possa vedere la categoria
 
         for(Category<E> d: categorie){
             for(E data : d.getDatiCat()){
@@ -184,8 +224,8 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public Iterator<E> getIterator(String passw) {
-        //TODO: controllare dati di accesso
+    public Iterator<E> getIterator(String passw) throws WrongLoginException {
+        if(!login(passw)) throw new WrongLoginException("password errata!");
 
         List<E> list = new ArrayList<>();
         for(Category<E> it : categorie){
@@ -201,16 +241,16 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public Iterator<E> getFriendIterator(String friend) {
-        //TODO: controllare se friend esiste
-
+    public Iterator<E> getFriendIterator(String friend) throws NotExistsException {
         List<E> list = new ArrayList<>();
         for(Category<E> it : categorie){
-            if(it.getAmiciCat().contains(friend))
+            if(it.getAmiciCat().contains(friend)) {
                 list.addAll(it.getDatiCat());
+                return Collections.unmodifiableList(list).iterator();
+            }
         }
+        throw new NotExistsException("amico non trovato!");
 
-        return Collections.unmodifiableList(list).iterator();
     }
 
 }
