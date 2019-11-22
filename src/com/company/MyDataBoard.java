@@ -61,8 +61,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
         if(pos != -1) categorie.remove(pos);
     }
 
-    // Aggiunge un amico ad una categoria di dati
-    // se vengono rispettati i controlli di identità
+
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException, AlreadyExistsException, WrongLoginException {
         if(category == null || passw == null || friend == null) throw new NullPointerException("campo categoria,password o amico nullo");
@@ -71,7 +70,7 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
         int pos_cat = findCategory(category);
         Category<E> c = categorie.get(pos_cat);
         if(c.getAmiciCat().contains(friend)) throw new AlreadyExistsException("Amico gia presente");
-        else c.getAmiciCat().add(friend);
+        c.getAmiciCat().add(friend);
 
     }
 
@@ -204,15 +203,15 @@ public class MyDataBoard<E extends Data> implements DataBoard<E> {
 
     @Override
     public Iterator<E> getFriendIterator(String friend) throws NotExistsException {
-        //TODO: controllare se friend esiste
-
         List<E> list = new ArrayList<>();
         for(Category<E> it : categorie){
-            if(it.getAmiciCat().contains(friend))
+            if(it.getAmiciCat().contains(friend)) {
                 list.addAll(it.getDatiCat());
+                return Collections.unmodifiableList(list).iterator();
+            }
         }
+        throw new NotExistsException("amico non trovato!");
 
-        return Collections.unmodifiableList(list).iterator();
     }
 
 }
