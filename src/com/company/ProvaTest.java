@@ -57,7 +57,7 @@ public class ProvaTest {
     }
 
     @Test(expected = java.lang.UnsupportedOperationException.class)
-    public void test_likeIterator() throws AlreadyLikedException, PermessionDeniedException {
+    public void test_likeIterator() throws AlreadyLikedException, PermessionDeniedException, WrongLoginException {
         gallery.insertLike("loris",titles[0]);
         gallery.insertLike("fede",titles[0]);
 
